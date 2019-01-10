@@ -30,18 +30,17 @@ class Museum
 
   def patrons_by_exhibit_interest
     exhibit_interest = {}
-    person_array = []
     @exhibits.each do |exhibit|
       @patrons.each do |patron|
-        if patron.interests.include? (exhibit.name)
-          person_array << patron
+        if patron.interests.include?(exhibit.name)
+          exhibit_interest[exhibit.name] = [] if exhibit_interest[exhibit.name].nil?
+          exhibit_interest[exhibit.name] << patron
         end
       end
-      # binding.pry
-      person_array
-      exhibit_interest[exhibit] = person_array
-      end
-    exhibit_interest
+    end
+    exhibit_interest.sort_by do |ex|
+      @patrons.count
+    end.to_h
   end
 
 end
